@@ -1,0 +1,8 @@
+pyinstaller --onefile --noconsole ^
+--add-binary "exiftool.exe;." ^
+--add-data "gpx.fmt;." ^
+--add-data "leaflet.js;." ^
+--add-data "leaflet.css;." ^
+--collect-all PySide6.QtWebEngineWidgets ^
+--collect-all PySide6.QtWebEngineCore ^
+gopro_streetview_helper.py
