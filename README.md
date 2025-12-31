@@ -17,7 +17,7 @@ GoPro Player で .360 ファイルをエクスポートします。<br/>
 gopro_streetview_helper.exe<br/>
 exiftool.exe / exiftool_files ( https://exiftool.org/ )<br/>
 gpx.fmt<br/>
-leaflet.js / leaflet.css etc. ( https://leafletjs.com/ )<br/>
+leaflet.js / leaflet.css ( https://leafletjs.com/ )<br/>
 <br/>
 3. ツールの使い方<br/>
 <br/>
@@ -55,3 +55,4 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 著作権・ライセンス<br/>
 <br/>
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
+
