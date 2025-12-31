@@ -1,0 +1,11 @@
+# --- GUI Framework ---
+# PySide6 本体 (Qt6)
+PySide6>=6.6.0
+
+# --- Web Engine (地図表示用) ---
+# QtWebEngine モジュール (PySide6のパッケージに含まれるが、明示的に最新を推奨)
+shiboken6>=6.6.0
+
+# --- Build Tool (EXE化用) ---
+# PythonスクリプトをWindows実行ファイルに変換するツール
+pyinstaller>=6.3.0
