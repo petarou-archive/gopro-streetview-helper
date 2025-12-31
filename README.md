@@ -54,7 +54,4 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 
 著作権・ライセンス
 
-本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。"# gopro-streetview-helper" 
-"# gopro-streetview-helper" 
-"# gopro-streetview-helper" 
-
+本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
