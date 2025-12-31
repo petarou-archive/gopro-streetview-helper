@@ -1,0 +1,8 @@
+#------------------------------------------------------------------------------
+# File:         gpx.fmt
+#------------------------------------------------------------------------------
+#[HEAD]<?xml version="1.0" encoding="utf-8"?>
+#[HEAD]<gpx version="1.1" creator="ExifTool" xmlns:xsi="www.w3.org" xmlns="www.topografix.com" xsi:schemaLocation="www.topografix.com www.topografix.com/gpx.xsd">
+#[HEAD]<trk><name>$filename</name><trkseg>
+#[BODY]<trkpt lat="$gpslatitude#" lon="$gpslongitude#"><ele>$gpsaltitude#</ele><time>${gpsdatetime;s/(\d{4}):(\d{2}):(\d{2}) /$1-$2-$3T/;s/ ?Z?$//;$_ .= "Z"}</time></trkpt>
+#[TAIL]</trkseg></trk></gpx>
