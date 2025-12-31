@@ -15,9 +15,9 @@ GoPro Player で .360 ファイルをエクスポートします。
 トリミング: 開始・終了地点をカットせず、そのまま書き出すことを強く推奨します。
 本ツールのフォルダに以下のファイルが揃っていることを確認してください。
 gopro_streetview_helper.exe
-exiftool.exe
+exiftool.exe / exiftool_files ( https://exiftool.org/ )
 gpx.fmt
-leaflet.js / leaflet.css
+leaflet.js / leaflet.css etc. ( https://leafletjs.com/ )
 
 3. ツールの使い方
 
@@ -57,3 +57,4 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。"# gopro-streetview-helper" 
 "# gopro-streetview-helper" 
 "# gopro-streetview-helper" 
+
