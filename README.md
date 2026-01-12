@@ -41,7 +41,7 @@ gopro_streetview_helper.exe を起動します。<br/>
 5. Googleストリートビューへのアップロード<br/>
 <br/>
 Google Street View Studio にアクセスします。<br/>
-本ツールで処理した 「MP4ファイル」と「GPXファイル」の2つを同時に選択 してアップロードします。<br/>
+本ツールで処理した 「MP4ファイル」をアップロード後、GPS情報がありませんの警告が表示されるので「GPXファイル」を追加でアップロードします。<br/>
 ※ _fixed 版を作成した場合は、必ず _fixed 同士をセットにしてください。<br/>
 <br/>
 6. FAQ / トラブルシューティング<br/>
@@ -62,5 +62,6 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 著作権・ライセンス<br/>
 <br/>
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
+
 
 
