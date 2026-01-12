@@ -1,8 +1,45 @@
+#win
 pyinstaller --onefile --noconsole ^
 --add-binary "exiftool.exe;." ^
+--add-data "exiftool_files;exiftool_files" ^
 --add-data "gpx.fmt;." ^
 --add-data "leaflet.js;." ^
 --add-data "leaflet.css;." ^
 --collect-all PySide6.QtWebEngineWidgets ^
 --collect-all PySide6.QtWebEngineCore ^
 gopro_streetview_helper.py
+
+pyinstaller --onefile --noconsole ^
+--add-binary "exiftool.exe;." ^
+--add-data "exiftool_files;exiftool_files" ^
+--add-data "gpx.fmt;." ^
+--add-data "leaflet.js;." ^
+--add-data "leaflet.css;." ^
+--collect-all PySide6.QtWebEngineWidgets ^
+--collect-all PySide6.QtWebEngineCore ^
+gopro_gps_analizer.py
+
+
+#macOS
+pyinstaller --target-arch universal2 --noconsole --windowed \
+--add-binary "exiftool:." \
+--add-data "lib:lib" \
+--add-data "gpx.fmt:." \
+--add-data "leaflet.js:." \
+--add-data "leaflet.css:." \
+--collect-all PySide6.QtWebEngineWidgets \
+--collect-all PySide6.QtWebEngineCore \
+--name "GoProStreetViewHelper" \
+gopro_streetview_helper.py
+
+
+pyinstaller --target-arch universal2 --noconsole --windowed \
+--add-binary "exiftool:." \
+--add-data "lib:lib" \
+--add-data "gpx.fmt:." \
+--add-data "leaflet.js:." \
+--add-data "leaflet.css:." \
+--collect-all PySide6.QtWebEngineWidgets \
+--collect-all PySide6.QtWebEngineCore \
+--name "GoProGPSAnalizer" \
+gopro_gps_analizer.py
