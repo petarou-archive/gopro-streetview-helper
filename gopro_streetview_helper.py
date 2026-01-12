@@ -3,6 +3,7 @@ import os
 import subprocess
 import json
 import xml.etree.ElementTree as ET
+import platform
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QPushButton, QFileDialog, QLabel, QMessageBox,
                              QHBoxLayout, QRadioButton, QButtonGroup, QFrame)
@@ -12,25 +13,26 @@ from PySide6.QtCore import Qt, QUrl
 
 def resource_path(relative_path):
     """ PyInstallerの一時フォルダ、または現在のディレクトリから絶対パスを取得 """
-    #if hasattr(sys, '_MEIPASS'):
-    #    return os.path.join(sys._MEIPASS, relative_path)
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
 class GoProGPSApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("GoPro MAX Street View Helper (2025 Edition)")
+        self.exiftool_cmd = self.get_exiftool_cmd()
+        self.setWindowTitle("GoPro Street View Helper (v1.0.1)")
         self.setMinimumSize(1100, 750)
-
+        
         self.path_360 = ""
         self.path_mp4 = ""
         self.coords_data = []
 
+        # UI構成
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.main_layout = QHBoxLayout(self.central_widget)
 
-        # --- 左側コントロールパネル ---
         self.control_panel = QVBoxLayout()
         self.main_layout.addLayout(self.control_panel, 1)
 
@@ -81,9 +83,33 @@ class GoProGPSApp(QMainWindow):
         self.main_layout.addWidget(self.web_view, 3)
         self.init_map()
 
+    def get_exiftool_cmd(self):
+        if platform.system() == "Windows":
+            return resource_path("exiftool.exe")
+        
+        # macOS環境
+        exiftool_bin = resource_path("exiftool")
+        exiftool_lib = resource_path("lib")
+        
+        # ExifToolが内部のlibフォルダを見つけられるように環境変数を設定
+        os.environ["PERL5LIB"] = exiftool_lib
+        
+        # システムインストール版があれば優先、なければ同梱版
+        if os.path.exists("/usr/local/bin/exiftool"):
+            return "/usr/local/bin/exiftool"
+        
+        # 同梱版を使う場合は実行権限を確認（ビルド後の属性剥がれ対策）
+        if os.path.exists(exiftool_bin):
+            os.chmod(exiftool_bin, 0o755)
+            return exiftool_bin
+            
+        return "exiftool" # 最終手段としてPATHに期待
+
     def init_map(self):
+        # macOSでは file:// の後にスラッシュを2つ入れる
         js_path = QUrl.fromLocalFile(resource_path("leaflet.js")).toString()
         css_path = QUrl.fromLocalFile(resource_path("leaflet.css")).toString()
+
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -126,41 +152,47 @@ class GoProGPSApp(QMainWindow):
 
     def select_360(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select .360", "", "GoPro Files (*.360)")
-        if file: self.path_360 = file; self.label_360.setText(os.path.basename(file)); self.check_ready()
+        if file:
+            self.path_360 = file
+            self.label_360.setText(os.path.basename(file))
+            self.check_ready()
 
     def select_mp4(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select .mp4", "", "Video Files (*.mp4)")
-        if file: self.path_mp4 = file; self.label_mp4.setText(os.path.basename(file)); self.check_ready()
+        if file:
+            self.path_mp4 = file
+            self.label_mp4.setText(os.path.basename(file))
+            self.check_ready()
 
     def check_ready(self):
-        if self.path_360 and self.path_mp4: self.btn_process.setEnabled(True)
+        if self.path_360 and self.path_mp4:
+            self.btn_process.setEnabled(True)
 
     def process_files(self):
-        exiftool_exe = resource_path("exiftool.exe")
+        mp4_dir = os.path.dirname(self.path_mp4)
+        name_only = os.path.splitext(os.path.basename(self.path_mp4))
+        
         gpx_fmt = resource_path("gpx.fmt")
 
         # 保存パスの決定
         if self.radio_overwrite.isChecked():
             target_mp4 = self.path_mp4
-            output_gpx = os.path.splitext(self.path_mp4)[0] + ".gpx"
+            output_gpx = os.path.join(mp4_dir, f"{name_only[0]}.gpx")
         else:
-            target_mp4 = os.path.splitext(self.path_mp4)[0] + "_fixed.mp4"
-            output_gpx = os.path.splitext(self.path_mp4)[0] + "_fixed.gpx"
+            target_mp4 = os.path.join(mp4_dir, f"{name_only[0]}_fixed.mp4")
+            output_gpx = os.path.join(mp4_dir, f"{name_only[0]}_fixed.gpx")
             # 別名保存で同名ファイルがある場合は削除（ExifToolの仕様回避）
             if os.path.exists(target_mp4): os.remove(target_mp4)
 
         try:
-            # 1. 撮影日時の抽出
-            res = subprocess.run([exiftool_exe, "-CreateDate", "-s3", "-S", self.path_360], capture_output=True, text=True, check=True)
+            # 1. 撮影日時抽出
+            res = subprocess.run([self.exiftool_cmd, "-CreateDate", "-s3", "-S", self.path_360], 
+                                 capture_output=True, text=True, check=True)
             correct_date = res.stdout.strip()
-
-            if not correct_date:
-                QMessageBox.warning(self, "Error", "撮影日時を取得できませんでした。")
-                return
 
             # 2. MP4時刻修正
             meta_args = [
-                exiftool_exe,
+                self.exiftool_cmd,
                 f"-CreateDate={correct_date}", f"-ModifyDate={correct_date}",
                 f"-TrackCreateDate={correct_date}", f"-TrackModifyDate={correct_date}",
                 f"-MediaCreateDate={correct_date}", f"-MediaModifyDate={correct_date}"
@@ -176,15 +208,17 @@ class GoProGPSApp(QMainWindow):
 
             subprocess.run(meta_args, check=True)
 
-            # 3. GPX作成 (ミリ秒・ISO形式)
-            cmd_gpx = [exiftool_exe, "-api", "TimePrecision=3", "-p", gpx_fmt, "-ee", "-c", "%.8f", self.path_360]
+            # 3. GPX作成
+            cmd = [self.exiftool_cmd, "-api", "TimePrecision=3", "-p", gpx_fmt, "-ee", "-c", "%.8f", self.path_360]
             with open(output_gpx, "w", encoding="utf-8") as f:
-                subprocess.run(cmd_gpx, stdout=f, check=True)
+                subprocess.run(cmd, stdout=f, check=True)
 
-            # 4. 地図描画
+            # 4. 地図更新
             self.coords_data = self.parse_gpx(output_gpx)
             if self.coords_data:
-                self.web_view.page().runJavaScript(f"updateRoute('{json.dumps(self.coords_data)}')")
+                json_data = json.dumps(self.coords_data)
+                self.web_view.page().runJavaScript(f"updateRoute('{json_data}')")
+                #QMessageBox.information(self, "完了", f"処理が完了しました。")
                 QMessageBox.information(self, "完了", f"処理が完了しました。\n\n動画: {os.path.basename(target_mp4)}\nGPX: {os.path.basename(output_gpx)}")
 
         except Exception as e:
