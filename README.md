@@ -5,11 +5,12 @@ GoPro Street View Helper 利用ガイド<br/>
 また、GPS未捕捉による位置情報不正や跳びによる処理エラーを防ぐための、.360ファイル分析ツールを別途用意しました。<br/>
 <br/>
 1. 解決できる問題<br/>
-<img src="https://github.com/petarou-archive/gopro-streetview-helper/blob/main/GoProStreetViewHelper_macOS.png"><br/>
+<img src="https://github.com/petarou-archive/gopro-streetview-helper/blob/main/GoProStreetViewHelper_macOS.png"></img>
 Gopro Streetview Helper<br/>
 GoPro Playerで書き出したMP4ファイルは、動画内の時刻（作成日時）が「書き出し完了時刻」に上書きされてしまうため、Google Street View Studioにアップロードすると「GPSと動画のタイムスタンプが一致しません」というエラーが発生します。<br/>
 本ツールは、元の .360 ファイルから正しい撮影時刻を取得し、動画のメタデータを自動修正します。<br/>
 <br/>
+<img src="https://github.com/petarou-archive/gopro-streetview-helper/blob/main/GoProGPSAnalizer_macOS.png"></img>
 GoPro GPS Analizer<br/>
 .360ファイルを参照し、GPS未捕捉による位置情報不正や跳びを分析し表示します。<br/>
 GoPro Playerで.360ファイルの先頭から異常区間をトリミングで除くことで、Google Street View Studioの処理エラーを回避できます。<br/>
@@ -62,6 +63,7 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 著作権・ライセンス<br/>
 <br/>
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
+
 
 
 
