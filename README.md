@@ -14,7 +14,7 @@ GoPro GPS Analizer<br/>
 .360ファイルを参照し、GPS未捕捉による位置情報不正や跳びを分析し表示します。<br/>
 GoPro Playerで.360ファイルの先頭から異常区間をトリミングで除くことで、Google Street View Studioの処理エラーを回避できます。<br/>
 <br/>
-3. 事前準備<br/>
+2. 事前準備<br/>
 <br/>
 Gopro Streetview Helper<br/>
 GoPro Player で .360 ファイルをエクスポートします。<br/>
@@ -26,7 +26,7 @@ exiftool.exe / exiftool_files ( https://exiftool.org/ )<br/>
 gpx.fmt<br/>
 leaflet.js / leaflet.css ( https://leafletjs.com/ )<br/>
 <br/>
-4. ツールの使い方<br/>
+3. ツールの使い方<br/>
 <br/>
 gopro_streetview_helper.exe を起動します。<br/>
 <br/>
@@ -38,13 +38,13 @@ gopro_streetview_helper.exe を起動します。<br/>
 [実行（時刻修正 ＆ GPX作成）] をクリックします。<br/>
 処理完了後、地図にルートが表示されます。動画と同じ場所に .gpx ファイルが生成されます。<br/>
 <br/>
-5. Googleストリートビューへのアップロード<br/>
+4. Googleストリートビューへのアップロード<br/>
 <br/>
 Google Street View Studio にアクセスします。<br/>
 本ツールで処理した 「MP4ファイル」をアップロード後、GPS情報がありませんの警告が表示されるので「GPXファイル」を追加でアップロードします。<br/>
 ※ _fixed 版を作成した場合は、必ず _fixed 同士をセットにしてください。<br/>
 <br/>
-6. FAQ / トラブルシューティング<br/>
+5. FAQ / トラブルシューティング<br/>
 <br/>
 Q: 地図が表示されない / 白いまま<br/>
 A: ルートの描画（青い線）にはインターネット接続が必要です。オフライン環境では地図タイルが表示されません。<br/>
@@ -62,6 +62,7 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 著作権・ライセンス<br/>
 <br/>
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
+
 
 
 
