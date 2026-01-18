@@ -20,7 +20,7 @@ GoPro Playerで.360ファイルの先頭から異常区間をトリミングで�
 Gopro Streetview Helper<br/>
 GoPro Player で .360 ファイルをエクスポートします。<br/>
 投影法: 正距円筒図法 (Equirectangular) を選択<br/>
-トリミング: 開始・終了地点をカットせず、そのまま書き出すことを強く推奨します。<br/>
+トリミング: 開始・終了地点をカットする場合は、「新しいトリミング済みドキュメントを作成」で.360ファイルを作成後、エクスポートします。<br/>
 本ツールのフォルダに以下のファイルが揃っていることを確認してください。<br/>
 gopro_streetview_helper.exe<br/>
 exiftool.exe / exiftool_files ( https://exiftool.org/ )<br/>
@@ -63,6 +63,7 @@ Google側の仕様変更により、予告なく利用できなくなる場合�
 著作権・ライセンス<br/>
 <br/>
 本ツールは Leaflet.js (BSD License) および ExifTool (Perl Artist License/GPL) を利用しています。
+
 
 
 
